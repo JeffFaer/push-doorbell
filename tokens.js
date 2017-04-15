@@ -37,7 +37,7 @@ tokensRef
 
 var methods = {}
 methods.getTokens = function() {
-    return tokens.keys();
+    return [...tokens];
 };
 
 module.exports = methods;

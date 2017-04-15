@@ -68,7 +68,9 @@ messaging.onTokenRefresh(function() {
         });
 });
 messaging.onMessage(function(payload) {
-    console.log("Message received.", payload);
+    if (Notification.permission === "granted") {
+        new Notification(payload.notification.title, payload.notification);
+    }
 });
 
 window.addEventListener('load', function() {
@@ -82,6 +84,7 @@ window.addEventListener('load', function() {
                 .then(updateToken)
                 .catch(function(e) {
                     console.log('Could not retrieve token.', e);
+                    statusDiv.textContent = 'Could not retrieve token.';
                 });
         })
         .catch(function(e) {
