@@ -8,7 +8,7 @@ var debug = require('debug')('push-doorbell:app');
 var request = require('request');
 
 var admin = require('firebase-admin');
-var serviceAccount = require('./serviceAccountKey.json');
+var serviceAccount = require('./config/service-account-key.json');
 var firebaseProjectConfig =
     require('./public/javascripts/firebase-project-config');
 
