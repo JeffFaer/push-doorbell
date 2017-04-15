@@ -6,8 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var debug = require('debug')('push-doorbell:app');
 var request = require('request');
-var admin = require('firebase-admin');
 
+var admin = require('firebase-admin');
 var serviceAccount = require('./serviceAccountKey.json');
 var firebaseProjectConfig =
     require('./public/javascripts/firebase-project-config');
@@ -16,6 +16,8 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
   databaseURL: firebaseProjectConfig.databaseURL
 });
+
+var tokens = require('./routes/tokens');
 
 var app = express();
 
@@ -31,28 +33,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-var tokens = []
-app.post('/add_token', function(req, res) {
-    var token = req.body.token;
-    if (tokens.indexOf(token) == -1) {
-        tokens.push(token);
-    }
-});
-app.post('/remove_token', function(req, res) {
-    var token = req.body.token;
-    var index = tokens.indexOf(token);
-    if (index != -1) {
-        tokens.splice(index, 1);
-    }
-});
-app.get('/list_tokens', function(req, res) {
-    var str = ''
-    for (var i = 0; i < tokens.length; i++) {
-        str += tokens[i] + '\n';
-    }
-
-    res.send(str);
-});
+app.use(tokens);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
