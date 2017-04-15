@@ -5,7 +5,6 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var debug = require('debug')('push-doorbell:app');
-var request = require('request');
 
 var admin = require('firebase-admin');
 var serviceAccount = require('./config/service-account-key.json');
