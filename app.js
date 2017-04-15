@@ -4,9 +4,18 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var debug = require('debug')('push-doorbell:app');
+var request = require('request');
+var admin = require('firebase-admin');
 
-var index = require('./routes/index');
-var users = require('./routes/users');
+var serviceAccount = require('./serviceAccountKey.json');
+var firebaseProjectConfig =
+    require('./public/javascripts/firebase-project-config');
+
+admin.initializeApp({
+  credential: admin.credential.cert(serviceAccount),
+  databaseURL: firebaseProjectConfig.databaseURL
+});
 
 var app = express();
 
@@ -18,12 +27,32 @@ app.set('view engine', 'pug');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/users', users);
+var tokens = []
+app.post('/add_token', function(req, res) {
+    var token = req.body.token;
+    if (tokens.indexOf(token) == -1) {
+        tokens.push(token);
+    }
+});
+app.post('/remove_token', function(req, res) {
+    var token = req.body.token;
+    var index = tokens.indexOf(token);
+    if (index != -1) {
+        tokens.splice(index, 1);
+    }
+});
+app.get('/list_tokens', function(req, res) {
+    var str = ''
+    for (var i = 0; i < tokens.length; i++) {
+        str += tokens[i] + '\n';
+    }
+
+    res.send(str);
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

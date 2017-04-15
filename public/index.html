@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <link rel="manifest" href="manifest.json">
+    </head>
+
+    <body>
+        <button class="js-push-button" disabled>
+            Enable Push Notifications
+        </button>
+
+        <script src="https://www.gstatic.com/firebasejs/3.7.8/firebase.js"></script>
+        <script src="./javascripts/firebase-project-config.js"></script>
+        <script>
+firebase.initializeApp(firebaseProjectConfig);
+        </script>
+
+        <script src="javascripts/main.js"></script>
+    </body>
+</html>
