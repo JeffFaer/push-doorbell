@@ -16,7 +16,7 @@ admin.initializeApp({
   databaseURL: firebaseProjectConfig.databaseURL
 });
 
-var tokens = require('./tokens');
+var touch = require('./touch');
 
 var app = express();
 
