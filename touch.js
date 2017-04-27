@@ -7,6 +7,10 @@ var config = require('./config/config')
 var payload = {
     notification: require('./config/notification')
 };
+var options = {
+    collapseKey: 'message',
+    timeToLive: config.notificationWait
+}
 
 var lastMessage = null;
 var mpr121 = new MPR121(0x5A, 1);
@@ -18,7 +22,7 @@ mpr121.on('touch', function(pin) {
             || currentTime - lastMessage > config.notificationWait) {
         debug('Sending notification.');
         lastMessage = currentTime;
-        messaging.sendToDevice(tokens.getTokens(), payload);
+        messaging.sendToDevice(tokens.getTokens(), payload, options);
     } else {
         var timeUntilMessage = config.notificationWait -
             (currentTime - lastMessage);
