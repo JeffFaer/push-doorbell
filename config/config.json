@@ -2,6 +2,8 @@
     "httpPort": 80,
     "httpsPort": 443,
     "notificationWait": 300000,
+    "thresholdTouch": 12,
+    "thresholdRelease": 6,
     "sslCert": "./cert.pem",
     "sslKey": "./key.pem",
     "sslCa": "./ca.pem"
