@@ -2,7 +2,7 @@
     "httpPort": 80,
     "httpsPort": 443,
     "notificationWait": 300000,
-    "sslCert": "",
-    "sslKey": "",
-    "sslChain": ""
+    "sslCert": "./cert.pem",
+    "sslKey": "./key.pem",
+    "sslCa": "./ca.pem"
 }
