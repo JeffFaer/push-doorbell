@@ -1,14 +1,17 @@
 var debug = require('debug')('push-doorbell:touch')
 var MPR121 = require('adafruit-mpr121');
 var tokens = require('./tokens');
+
 var admin = require('firebase-admin');
 var messaging = admin.messaging();
+
 var config = require('./config/config')
 var payload = {
-    notification: require('./config/notification')
+    data: require('./config/notification')
 };
 var options = {
     collapseKey: 'message',
+    priority: 'high',
     timeToLive: config.notificationWait
 }
 

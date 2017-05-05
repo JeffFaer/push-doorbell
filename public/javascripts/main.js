@@ -68,8 +68,11 @@ messaging.onTokenRefresh(function() {
         });
 });
 messaging.onMessage(function(payload) {
+    console.log('onMessage');
     if (Notification.permission === "granted") {
-        new Notification(payload.notification.title, payload.notification);
+        maybeNotify(function() {
+            new Notification(payload.data.title, payload.data);
+        });
     }
 });
 

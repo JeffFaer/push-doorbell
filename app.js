@@ -6,6 +6,8 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var debug = require('debug')('push-doorbell:app');
 
+var config = require('./config/config');
+
 var admin = require('firebase-admin');
 var serviceAccount = require('./config/service-account-key.json');
 var firebaseProjectConfig =
@@ -30,6 +32,16 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.get('/prefs', function(req, res) {
+    var prefs = {
+        quietTimeStart: config.quietTimeStart,
+        quietTimeEnd: config.quietTimeEnd
+    };
+
+    res.setHeader('Content-Type', 'application/json');
+    res.send(JSON.stringify(prefs));
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
