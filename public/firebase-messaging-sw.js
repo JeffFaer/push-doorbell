@@ -1,7 +1,7 @@
 'use strict';
 
-importScripts('https://www.gstatic.com/firebasejs/3.7.8/firebase-app.js');
-importScripts('https://www.gstatic.com/firebasejs/3.7.8/firebase-messaging.js');
+importScripts('https://www.gstatic.com/firebasejs/3.9.0/firebase-app.js');
+importScripts('https://www.gstatic.com/firebasejs/3.9.0/firebase-messaging.js');
 importScripts('./javascripts/firebase-project-config.js');
 importScripts('./javascripts/notify.js');
 
