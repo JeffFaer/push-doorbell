@@ -22,13 +22,13 @@ maybeNotify = function(notify) {
         return afterStart && beforeEnd;
     };
 
-    fetch('/prefs').then(function(response) {
-        if (response.ok) {
-            return response.json();
+    return fetch('/prefs').then(function(response) {
+        if (!response.ok) {
+            throw 'Could not get preferences: '
+                + `(${response.status}) ${response.statusText}`
         }
 
-        throw "Could not get preferences: "
-            + `(${response.status}) ${response.statusText}`
+        return response.json();
     })
     .then(function(prefs) {
         var now = new Date();
