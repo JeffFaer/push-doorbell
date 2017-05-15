@@ -25,9 +25,15 @@ mpr121.setThresholds(config.thresholdTouch, config.thresholdRelease)
             var currentTime = new Date().getTime();
             if (lastMessage == null
                     || currentTime - lastMessage > config.notificationWait) {
+                var devices = tokens.getTokens();
+                if (devices.length == 0) {
+                    debug('No tokens.');
+                    return;
+                }
+
                 debug('Sending notification.');
                 lastMessage = currentTime;
-                messaging.sendToDevice(tokens.getTokens(), payload, options)
+                messaging.sendToDevice(devices, payload, options)
                     .catch(function(e) {
                         debug("Error while sending message.", e);
                     });
