@@ -12,12 +12,12 @@ var express = require('express');
 var config = require('../config/config');
 
 var httpsOptions = {
-    cert: fs.readFileSync('./config/' + config.sslCert),
-    key: fs.readFileSync('./config/' + config.sslKey),
+    cert: fs.readFileSync('./config/' + config.ssl.cert),
+    key: fs.readFileSync('./config/' + config.ssl.key),
 };
 
-if (typeof config.sslCa === 'string') {
-    httpsOptions.ca = fs.readFileSync('./config/' + config.sslCa);
+if (typeof config.ssl.ca === 'string') {
+    httpsOptions.ca = fs.readFileSync('./config/' + config.ssl.ca);
 }
 
 /**

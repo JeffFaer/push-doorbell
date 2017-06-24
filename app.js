@@ -35,8 +35,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/prefs', function(req, res) {
     var prefs = {
-        quietTimeStart: config.quietTimeStart,
-        quietTimeEnd: config.quietTimeEnd
+        quietTime: config.quietTime
     };
 
     res.setHeader('Content-Type', 'application/json');

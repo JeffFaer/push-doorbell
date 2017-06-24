@@ -15,6 +15,15 @@ var options = {
     timeToLive: config.notificationWait
 }
 
+var nodemailer = require('nodemailer');
+
+var transporter = nodemailer.createTransport(config.smtp);
+var email = config.emails.length == 0 ? null : {
+    to: config.emails.join(', '),
+    subject: payload.data.title,
+    text: payload.data.body
+};
+
 var lastMessage = null;
 var mpr121 = new MPR121(0x5A, 1);
 mpr121.setThresholds(config.thresholdTouch, config.thresholdRelease)
@@ -25,18 +34,9 @@ mpr121.setThresholds(config.thresholdTouch, config.thresholdRelease)
             var currentTime = new Date().getTime();
             if (lastMessage == null
                     || currentTime - lastMessage > config.notificationWait) {
-                var devices = tokens.getTokens();
-                if (devices.length == 0) {
-                    debug('No tokens.');
-                    return;
-                }
-
-                debug('Sending notification.');
                 lastMessage = currentTime;
-                messaging.sendToDevice(devices, payload, options)
-                    .catch(function(e) {
-                        debug("Error while sending message.", e);
-                    });
+                doPushNotifications();
+                sendEmails();
             } else {
                 var timeUntilMessage = config.notificationWait -
                     (currentTime - lastMessage);
@@ -44,5 +44,35 @@ mpr121.setThresholds(config.thresholdTouch, config.thresholdRelease)
             }
         });
     });
+
+function doPushNotifications() {
+    var devices = tokens.getTokens();
+    if (devices.length == 0) {
+        debug('No tokens.');
+        return;
+    }
+
+    debug('Sending notification.');
+    messaging.sendToDevice(devices, payload, options)
+        .catch(function(e) {
+            debug("Error while sending message.", e);
+        });
+}
+
+function sendEmails() {
+    if (!email) {
+        debug('No emails.');
+        return;
+    }
+
+    debug('Sending emails.');
+    transporter.sendMail(email, function(err, info) {
+        if (err) {
+            debug("Error sending email:", err);
+        }
+
+        debug("Sent email:", info);
+    });
+}
 
 module.exports = mpr121;

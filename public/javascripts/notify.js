@@ -35,11 +35,11 @@ maybeNotify = function(notify) {
         var hour = now.getHours();
         var minute = now.getMinutes();
 
-        var startTimes = prefs.quietTimeStart.split(':');
+        var startTimes = prefs.quietTime.start.split(':');
         var startHour = parseInt(startTimes[0]);
         var startMinute = parseInt(startTimes[1]);
 
-        var endTimes = prefs.quietTimeEnd.split(':');
+        var endTimes = prefs.quietTime.end.split(':');
         var endHour = parseInt(endTimes[0]);
         var endMinute = parseInt(endTimes[1]);
 
