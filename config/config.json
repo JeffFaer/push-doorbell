@@ -22,5 +22,8 @@
             "pass": "hunter42"
         }
     },
-    "emails": []
+    "email": {
+        "sender": "no-reply@example.com",
+        "recipients": []
+    }
 }

@@ -7,10 +7,11 @@ var sendEmails = function() {
     debug('No emails.');
 };
 
-if (config.emails.length > 0) {
+if (config.email.recipients.length > 0) {
     var transporter = nodemailer.createTransport(config.smtp);
     var email = {
-        to: config.emails.join(', '),
+        from: config.email.sender,
+        to: config.email.recipients.join(', '),
         subject: notification.title,
         text: notification.body
     };
