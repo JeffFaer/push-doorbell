@@ -31,6 +31,8 @@ maybeNotify = function(notify) {
         return response.json();
     })
     .then(function(prefs) {
+        console.log('Got preferences:', prefs);
+
         var now = new Date();
         var hour = now.getHours();
         var minute = now.getMinutes();
