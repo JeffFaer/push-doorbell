@@ -23,6 +23,9 @@ module.exports = function() {
 
     debug('Sending notification.');
     messaging.sendToDevice(devices, payload, options)
+        .then(function() {
+            debug("Sent notification.");
+        })
         .catch(function(e) {
             debug("Error while sending message.", e);
         });
